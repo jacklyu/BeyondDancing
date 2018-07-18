@@ -28,7 +28,7 @@ public class DanceModel extends Observable {
         video1uri = null;
         video2uri = null;
         localuri = null;
-        select = 1;
+        select = 0;
         issignedin =false;
 
     }
@@ -73,6 +73,12 @@ public class DanceModel extends Observable {
         }else{
             return false;
         }
+    }
+    public void resetUri(){
+        video1uri = null;
+        video2uri = null;
+        localuri = null;
+        select = 0;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
