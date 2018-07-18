@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
@@ -38,9 +39,11 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.Image;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -70,6 +73,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -77,6 +81,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -719,36 +724,88 @@ public class Camera2VideoFragment extends Fragment
 
     private void stopRecordingVideo() {
         // UI
+
+        Date now = new Date();
+        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+        String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
+
+        // create bitmap screen capture
+        View v1 = getActivity().getWindow().getDecorView().getRootView();
+        v1.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+        v1.setDrawingCacheEnabled(false);
+
+        File imageFile = new File(mPath);
+        try {
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            int quality = 100;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            outputStream.flush();
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         mIsRecordingVideo = false;
         mButtonVideo.setText(R.string.record);
         // Stop recording
         mMediaRecorder.stop();
         mMediaRecorder.reset();
-
         Activity activity = getActivity();
         if (null != activity) {
             Toast.makeText(activity, "Video saved: " + mNextVideoAbsolutePath,
                     Toast.LENGTH_SHORT).show();
             Log.d(TAG, "Video saved: " + mNextVideoAbsolutePath);
         }
-        UploadAsyncTask u = new UploadAsyncTask(mNextVideoAbsolutePath);
+        UploadAsyncTask u = new UploadAsyncTask(mNextVideoAbsolutePath, mPath);
         u.execute();
         mNextVideoAbsolutePath = null;
         startPreview();
     }
     class UploadAsyncTask extends AsyncTask<Void, Void, Void> {
-        String Path;
+        String VideoPath;
+        String ImagePath;
         @Override
         protected Void doInBackground(Void... voids) {
-            Upload u = new Upload();
-            String msg = u.uploadVideo(Path);
-            Log.d(TAG, "Hello2"+msg);
+//            Upload u = new Upload();
+//            String msg = u.uploadVideo(Path);
+//            Log.d(TAG, "Hello2"+msg);
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    AsyncHttpClient client = new AsyncHttpClient();
+                    RequestParams params = new RequestParams();
+                    params.put("email", "tzhang995@gmail.com");
+                    params.put("title", "tzhang995");
+                    File video = new File(VideoPath);
+                    File thumbnail = new File(ImagePath);
+                    try {
+                        params.put("video", video);
+                        params.put("thumbnail", video);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    client.post("https://beyond-dancing-backend.herokuapp.com/uploadVideo", params, new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                            Log.d(TAG, "upload sucess");
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                            Log.w(TAG, "upload:failed code=" + statusCode);
+                        }
+                    });
+                }
+            };
+            mainHandler.post(myRunnable);
             return null;
         }
 
-        public UploadAsyncTask(String Path) {
+        public UploadAsyncTask(String VideoPath, String ImagePath) {
             super();
-            this.Path = Path;
+            this.VideoPath = VideoPath;
+            this.ImagePath = ImagePath;
         }
     }
 
