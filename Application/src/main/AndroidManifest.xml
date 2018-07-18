@@ -41,7 +41,6 @@
         </activity>
         <activity android:name="com.example.android.BeyondDancing.PlaybackActivity"></activity>
         <activity android:name=".CameraActivity"></activity>
-        <activity android:name=".WatchvideoActivity"></activity>
         <activity android:name=".LoginActivity"
             android:screenOrientation="sensorPortrait"></activity>
     </application>
