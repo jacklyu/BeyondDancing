@@ -37,14 +37,14 @@ public class MessageAdapter extends ArrayAdapter<BasicVideo>{
         final BasicVideo video = getItem(position);
         titleView.setText(video.getTitle());
         uploaderTextView.setText(video.getUploader());
-        timeTextView.setText(video.getVideoTime());
+        timeTextView.setText(video.getVideoURL());
         likesTextView.setText(Integer.toString(video.getLikes()));
         dislikesTextView.setText(Integer.toString(video.getDislikes()));
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), WatchvideoActivity.class);
-                intent.putExtra("video_url", video.getVideoTime());
+                intent.putExtra("video_url", video.getVideoURL());
                 getContext().startActivity(intent);
             }
         });

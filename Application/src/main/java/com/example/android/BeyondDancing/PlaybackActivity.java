@@ -34,9 +34,9 @@ public class PlaybackActivity extends Activity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_playback);
-        Intent intent = getIntent();
-        video_url = intent.getStringExtra("video_url");
-        Log.d("Video url is: ", video_url);
+        //Intent intent = getIntent();
+        //video_url = intent.getStringExtra("video_url");
+       // Log.d("Video url is: ", video_url);
         // Get Model instance
         DModel = DanceModel.getInstance();
         DModel.addObserver(this);

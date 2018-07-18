@@ -3,15 +3,16 @@ package com.example.android.BeyondDancing;
 public class BasicVideo {
     private String title;
     private String videoTime;
+    private String videoURL;
     private String thumbnailImage;
     private String uploader;
     private int likes;
     private int dislikes;
     public BasicVideo(){}
 
-    public BasicVideo(final String title, final String videoTime, final String thumbnailImage, final String uploader, final int likes, final int dislikes){
+    public BasicVideo(final String title, final String videoURL, final String thumbnailImage, final String uploader, final int likes, final int dislikes){
         this.title = title;
-        this.videoTime = videoTime;
+        this.videoURL = videoURL;
         this.thumbnailImage = thumbnailImage;
         this.uploader = uploader;
         this.likes = likes;
@@ -21,8 +22,8 @@ public class BasicVideo {
     public String getTitle(){
         return title;
     }
-    public String getVideoTime() {
-        return videoTime;
+    public String getVideoURL() {
+        return videoURL;
     }
     public String getThumbnailImage() {
         return thumbnailImage;
