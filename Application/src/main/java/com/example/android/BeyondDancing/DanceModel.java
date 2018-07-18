@@ -67,6 +67,13 @@ public class DanceModel extends Observable {
         }
         return null;
     }
+    public boolean fitforcompare(){
+        if(video1uri !=null && video2uri !=null) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //

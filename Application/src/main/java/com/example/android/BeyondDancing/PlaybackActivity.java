@@ -40,7 +40,7 @@ public class PlaybackActivity extends Activity implements Observer {
        // Log.d("Video url is: ", video_url);
         // Get Model instance
         DModel = DanceModel.getInstance();
-        DModel.addObserver(this);
+
 
 
     //set view info
@@ -49,6 +49,7 @@ public class PlaybackActivity extends Activity implements Observer {
         video1 = findViewById(R.id.videoView);
         video2 = findViewById(R.id.videoView2);
         restartbutton.setText("Start");
+        DModel.addObserver(this);
     /*
         playbutton.isLongClickable();
         playbutton.setOnLongClickListener(new View.OnLongClickListener() {

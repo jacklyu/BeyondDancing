@@ -9,10 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-public class VideobarFragment extends Fragment implements View.OnClickListener {
+import java.util.Observable;
+import java.util.Observer;
+
+public class VideobarFragment extends Fragment implements View.OnClickListener,Observer{
+    DanceModel DModel;
     ImageButton dance;
     ImageButton interst;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        DModel = DanceModel.getInstance();
 
         View v = inflater.inflate(R.layout.videobar, container, false);
 
@@ -29,9 +35,15 @@ public class VideobarFragment extends Fragment implements View.OnClickListener {
         interst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent( v.getContext(),MainActivity.class);
-                startActivity(intent);
+                if(DModel.fitforcompare()){
+                    Intent intent = new Intent(v.getContext(), PlaybackActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent2 = new Intent(v.getContext(), MainActivity.class);
+                    startActivity(intent2);
+                }
             } });
+        DModel.addObserver(this);
         return v;
     }
 
@@ -39,5 +51,19 @@ public class VideobarFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
+    }
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+
+
+        // Remove observer when activity is destroyed.
+        DModel.deleteObserver(this);
     }
 }

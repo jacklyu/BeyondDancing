@@ -45,8 +45,6 @@ public class WatchvideoActivity extends Activity implements Observer {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragmentvideo,videoFragment ).commit();
 
-        DModel.setServerUri(u);
-
         DModel.addObserver(this);
 
 
