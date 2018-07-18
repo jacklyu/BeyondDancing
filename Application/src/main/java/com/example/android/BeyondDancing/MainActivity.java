@@ -36,10 +36,12 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import cz.msebera.android.httpclient.Header;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements Observer{
     public static final int REQUEST_CODE_SIGN_IN = 8001;
     private Toolbar myToolbar;
     private DrawerLayout mDrawerLayout;
@@ -47,11 +49,13 @@ public class MainActivity extends AppCompatActivity{
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private ListViewFragment videoFragment;
+    private DanceModel DModel;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-
+        DModel = DanceModel.getInstance();
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
@@ -81,17 +85,22 @@ public class MainActivity extends AppCompatActivity{
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()) {
-                    case R.id.navigation_signin:
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivityForResult(intent, REQUEST_CODE_SIGN_IN);
-                        inflateMenu(R.menu.signout_menu);
-                        break;
-                    case R.id.navigation_signout:
+                if(!DModel.signedin()) {
+                    ;//R.id.navigation_signin:
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_SIGN_IN);
+                    inflateMenu(R.menu.signout_menu);
+                    //  break;
+                } else {
+                   // case true://R.id.navigation_signout:
+                        DModel.signout();
                         //signout function
                         inflateMenu(R.menu.main_menu);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
                 }
                 mDrawerLayout.closeDrawers();
+
                 return false;
             }
         });
@@ -99,8 +108,10 @@ public class MainActivity extends AppCompatActivity{
         videoFragment = new ListViewFragment();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().add(R.id.content_frame, videoFragment).commit();
-
-
+        if(DModel.signedin()){
+            loadscreen();
+        }
+        DModel.addObserver(this);
 
     }
 
@@ -132,47 +143,62 @@ public class MainActivity extends AppCompatActivity{
         if (requestCode == REQUEST_CODE_SIGN_IN) {
             if (resultCode == RESULT_OK) {
                 inflateMenu(R.menu.signout_menu);
-
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        AsyncHttpClient client = new AsyncHttpClient();
-                        RequestParams params = new RequestParams("email", LoginActivity.account.getEmail());
-                        client.post("https://beyond-dancing-backend.herokuapp.com/getUserVideos" ,params, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                super.onSuccess(statusCode, headers, response);
-                                Log.d("Get Videos", "Videos1"+ response.toString());
-                            }
-
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                                super.onSuccess(statusCode, headers, response);
-                                Log.d("Get Videos", "Videos2"+ response.toString());
-                                try {
-                                    List<BasicVideo> l = new ArrayList<>();
-                                    for (int i = 0; i < response.length(); i++) {
-                                        JSONObject jsonObject = response.getJSONObject(i);
-                                        BasicVideo b = new BasicVideo(jsonObject.getString("title"), jsonObject.getString("video_url"), jsonObject.getString("thumbnail_url"), LoginActivity.account.getDisplayName(), 0, 0);
-                                        l.add(b);
-                                    }
-                                    videoFragment.addVideos(l);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                    }
-                };
-
-                mainHandler.post(myRunnable);
+                loadscreen();
+                DModel.signin();
             }
         }
     }
+    private void loadscreen(){
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        Runnable myRunnable = new Runnable() {
+            @Override
+            public void run() {
+                AsyncHttpClient client = new AsyncHttpClient();
+                RequestParams params = new RequestParams("email", LoginActivity.account.getEmail());
+                client.post("https://beyond-dancing-backend.herokuapp.com/getUserVideos" ,params, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        super.onSuccess(statusCode, headers, response);
+                        Log.d("Get Videos", "Videos1"+ response.toString());
+                    }
 
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                        super.onSuccess(statusCode, headers, response);
+                        Log.d("Get Videos", "Videos2"+ response.toString());
+                        try {
+                            List<BasicVideo> l = new ArrayList<>();
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                BasicVideo b = new BasicVideo(jsonObject.getString("title"), jsonObject.getString("video_url"), jsonObject.getString("thumbnail_url"), LoginActivity.account.getDisplayName(), 0, 0);
+                                l.add(b);
+                            }
+                            videoFragment.addVideos(l);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        };
+
+        mainHandler.post(myRunnable);
+    }
     public void inflateMenu(int defaultLayout) {
         mNavigationView.getMenu().clear();
         mNavigationView.inflateMenu(defaultLayout);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
+    }
+    protected void onDestroy()
+    {
+        super.onDestroy();
+
+
+        // Remove observer when activity is destroyed.
+        DModel.deleteObserver(this);
     }
 }

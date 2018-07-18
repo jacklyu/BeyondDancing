@@ -36,9 +36,9 @@ public class WatchvideoActivity extends Activity implements Observer {
         video.setVideoURI(u);
         videoFragment = new VideobarFragment();
         videocrl = new MediaController(this);
-        videocrl.setAnchorView(video);
-        video.setMediaController(videocrl);
 
+        video.setMediaController(videocrl);
+        videocrl.setAnchorView(video);
         video.requestFocus();
 
         FragmentManager fragmentManager = getFragmentManager();

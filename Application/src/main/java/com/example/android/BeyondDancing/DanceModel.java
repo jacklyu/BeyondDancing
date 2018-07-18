@@ -1,5 +1,6 @@
 package com.example.android.BeyondDancing;
 
+import android.content.Intent;
 import android.net.Uri;
 
 import java.util.Observable;
@@ -21,15 +22,28 @@ public class DanceModel extends Observable {
     private Uri localuri;
     private int select;
     private int CurrentScreen;
-
+    private boolean issignedin;
     DanceModel() {
         CurrentScreen = 0;
         video1uri = null;
         video2uri = null;
         localuri = null;
         select = 1;
+        issignedin =false;
+
+    }
+    public void signin(){
+        issignedin =true;
+
+    }
+    public void signout(){
+        issignedin =false;
+
     }
 
+    public boolean signedin(){
+        return issignedin;
+    }
     public void setServerUri(Uri u) {
         if (select == 0) {
             video1uri = u;
