@@ -33,6 +33,7 @@ public class WatchvideoActivity extends Activity implements Observer {
         Intent intent = getIntent();
         video_url = intent.getStringExtra("video_url");
         u = Uri.parse(video_url);
+        DModel.setServerUri(u);
         video.setVideoURI(u);
         videoFragment = new VideobarFragment();
         videocrl = new MediaController(this);
