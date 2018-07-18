@@ -86,7 +86,7 @@ public class PlaybackActivity extends Activity implements Observer {
         ;
         Uri video1uri = DModel.getUri(1);//Uri.parse(videoone);
         Uri video2uri =  DModel.getUri(2);//Uri.parse(videotwo);
-        if(video2uri ==null){
+        if(video1uri ==null ||video2uri ==null ){
             Toast.makeText(this, "need one or more video, pls record", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent( this,CameraActivity.class);
             startActivity(intent);

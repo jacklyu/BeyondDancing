@@ -15,6 +15,7 @@ public class VideobarFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.videobar, container, false);
+
         dance = (ImageButton) v.findViewById(R.id.danceit);
         dance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -23,7 +24,8 @@ public class VideobarFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
             }
         });
-        interst = (ImageButton) v.findViewById(R.id.upvote);
+
+        interst = (ImageButton) v.findViewById(R.id.select);
         interst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
