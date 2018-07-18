@@ -776,7 +776,7 @@ public class Camera2VideoFragment extends Fragment
                     AsyncHttpClient client = new AsyncHttpClient();
                     RequestParams params = new RequestParams();
                     params.put("email", "tzhang995@gmail.com");
-                    params.put("title", "tzhang995");
+                    params.put("title", "tzhang9951");
                     File video = new File(VideoPath);
                     File thumbnail = new File(ImagePath);
                     try {

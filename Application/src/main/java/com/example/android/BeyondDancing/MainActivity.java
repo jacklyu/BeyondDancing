@@ -98,29 +98,8 @@ public class MainActivity extends AppCompatActivity{
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().add(R.id.content_frame, videoFragment).commit();
 
-        Handler mainHandler = new Handler(Looper.getMainLooper());
-        Runnable myRunnable = new Runnable() {
-            @Override
-            public void run() {
-                AsyncHttpClient client = new AsyncHttpClient();
-                RequestParams params = new RequestParams("email", "tzhang995@gmail.com");
-                client.post("https://beyond-dancing-backend.herokuapp.com/getUserVideos" ,params, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        super.onSuccess(statusCode, headers, response);
-                        Log.d("Get Videos", "Videos1"+ response.toString());
-                    }
 
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                        super.onSuccess(statusCode, headers, response);
-                        Log.d("Get Videos", "Videos2"+ response.toString());
-                    }
-                });
-            }
-        };
 
-        mainHandler.post(myRunnable);
     }
 
     @Override
@@ -151,6 +130,30 @@ public class MainActivity extends AppCompatActivity{
         if (requestCode == REQUEST_CODE_SIGN_IN) {
             if (resultCode == RESULT_OK) {
                 inflateMenu(R.menu.signout_menu);
+
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        AsyncHttpClient client = new AsyncHttpClient();
+                        RequestParams params = new RequestParams("email", LoginActivity.account.getEmail());
+                        client.post("https://beyond-dancing-backend.herokuapp.com/getUserVideos" ,params, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                super.onSuccess(statusCode, headers, response);
+                                Log.d("Get Videos", "Videos1"+ response.toString());
+                            }
+
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                                super.onSuccess(statusCode, headers, response);
+                                Log.d("Get Videos", "Videos2"+ response.toString());
+                            }
+                        });
+                    }
+                };
+
+                mainHandler.post(myRunnable);
             }
         }
     }

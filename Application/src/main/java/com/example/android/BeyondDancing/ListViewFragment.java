@@ -22,14 +22,6 @@ public class ListViewFragment extends Fragment {
         mVideoList = (ListView) rootView.findViewById(R.id.videoListView);
 
         List<BasicVideo> basicVideos = new ArrayList<>();
-        basicVideos.add(new BasicVideo("a","a","a","a",1,1));
-        basicVideos.add(new BasicVideo("a","a","a","a",1,1));
-        basicVideos.add(new BasicVideo("a","a","a","a",1,1));
-        basicVideos.add(new BasicVideo("a","a","a","a",1,1));
-        basicVideos.add(new BasicVideo("a","a","a","a",1,1));
-        basicVideos.add(new BasicVideo("a","a","a","a",1,1));
-        basicVideos.add(new BasicVideo("a","a","a","a",1,1));
-        basicVideos.add(new BasicVideo("a","a","a","a",1,1));
         mMessageAdapter = new MessageAdapter(getActivity(), R.layout.video_item, basicVideos);
         mVideoList.setAdapter(mMessageAdapter);
         return rootView;

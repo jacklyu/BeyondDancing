@@ -30,6 +30,7 @@ public class LoginActivity extends Activity {
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
+    public static GoogleSignInAccount account = null;
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -58,8 +59,8 @@ public class LoginActivity extends Activity {
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                String idToken = account.getIdToken();
+                LoginActivity.account = task.getResult(ApiException.class);
+                String idToken = LoginActivity.account.getIdToken();
                 Log.d("IDTOKEN", "id token is: " + idToken);
 
                 AsyncHttpClient client = new AsyncHttpClient();
