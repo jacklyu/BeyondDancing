@@ -32,9 +32,9 @@ public class MessageAdapter extends ArrayAdapter<BasicVideo>{
         ImageView thumbnailView = (ImageView) convertView.findViewById(R.id.list_item_thumbnail);
         TextView titleView = (TextView) convertView.findViewById(R.id.list_item_title);
         TextView uploaderTextView = (TextView) convertView.findViewById((R.id.list_item_uploader));
-        TextView timeTextView = (TextView) convertView.findViewById((R.id.list_item_video_time));
-        TextView likesTextView = (TextView) convertView.findViewById((R.id.list_item_likes));
-        TextView dislikesTextView = (TextView) convertView.findViewById((R.id.list_item_dislikes));
+//        TextView timeTextView = (TextView) convertView.findViewById((R.id.list_item_video_time));
+//        TextView likesTextView = (TextView) convertView.findViewById((R.id.list_item_likes));
+//        TextView dislikesTextView = (TextView) convertView.findViewById((R.id.list_item_dislikes));
 
         final BasicVideo video = getItem(position);
         Picasso.get().load(video.getThumbnailImage()).into(thumbnailView);
