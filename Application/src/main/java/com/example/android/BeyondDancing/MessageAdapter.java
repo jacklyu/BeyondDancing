@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +37,12 @@ public class MessageAdapter extends ArrayAdapter<BasicVideo>{
         TextView dislikesTextView = (TextView) convertView.findViewById((R.id.list_item_dislikes));
 
         final BasicVideo video = getItem(position);
+        Picasso.get().load(video.getThumbnailImage()).into(thumbnailView);
         titleView.setText(video.getTitle());
         uploaderTextView.setText(video.getUploader());
-        timeTextView.setText(video.getVideoURL());
-        likesTextView.setText(Integer.toString(video.getLikes()));
-        dislikesTextView.setText(Integer.toString(video.getDislikes()));
+//        timeTextView.setText(video.getVideoURL());
+//        likesTextView.setText(Integer.toString(video.getLikes()));
+//        dislikesTextView.setText(Integer.toString(video.getDislikes()));
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
