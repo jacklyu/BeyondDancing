@@ -26,4 +26,8 @@ public class ListViewFragment extends Fragment {
         mVideoList.setAdapter(mMessageAdapter);
         return rootView;
     }
+
+    public void addVideos(List<BasicVideo> l) {
+        mMessageAdapter.addAll(l);
+    }
 }

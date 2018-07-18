@@ -34,6 +34,8 @@ import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -148,6 +150,17 @@ public class MainActivity extends AppCompatActivity{
                             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                                 super.onSuccess(statusCode, headers, response);
                                 Log.d("Get Videos", "Videos2"+ response.toString());
+                                try {
+                                    List<BasicVideo> l = new ArrayList<>();
+                                    for (int i = 0; i < response.length(); i++) {
+                                        JSONObject jsonObject = response.getJSONObject(i);
+                                        BasicVideo b = new BasicVideo(jsonObject.getString("title"), jsonObject.getString("video_url"), jsonObject.getString("thumbnail_url"), LoginActivity.account.getDisplayName(), 0, 0);
+                                        l.add(b);
+                                    }
+                                    videoFragment.addVideos(l);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
                     }
