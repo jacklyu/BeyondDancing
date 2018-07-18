@@ -5,12 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/black"
     tools:context="com.example.android.BeyondDancing.PlaybackActivity">
 
 
     <VideoView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
+        android:layout_gravity="center"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:onClick="vidonecrl" />
@@ -18,6 +20,7 @@
     <VideoView
         android:id="@+id/videoView2"
         android:layout_width="match_parent"
+        android:layout_gravity="center"
         android:layout_weight="1"
         android:layout_height="0dp"
         android:onClick="vidtwocrl" />

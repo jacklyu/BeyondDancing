@@ -22,4 +22,5 @@
     <color name="color4">#f3d7a6</color>
     <color name="color5">#ff9c6a</color>
     <color name="grey">#7f7f7f</color>
+    <color name="black">#000000</color>
 </resources>
