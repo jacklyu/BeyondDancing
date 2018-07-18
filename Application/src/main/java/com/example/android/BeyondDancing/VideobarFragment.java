@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 
 public class VideobarFragment extends Fragment implements View.OnClickListener {
     ImageButton dance;
+    ImageButton interst;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.videobar, container, false);
@@ -22,6 +23,13 @@ public class VideobarFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
             }
         });
+        interst = (ImageButton) v.findViewById(R.id.upvote);
+        interst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent( v.getContext(),MainActivity.class);
+                startActivity(intent);
+            } });
         return v;
     }
 

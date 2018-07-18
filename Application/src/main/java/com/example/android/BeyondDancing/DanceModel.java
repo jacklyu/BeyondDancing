@@ -1,5 +1,7 @@
 package com.example.android.BeyondDancing;
 
+import android.net.Uri;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -9,14 +11,47 @@ import java.util.Observer;
 
 public class DanceModel extends Observable {
     private static final DanceModel DancingModel = new DanceModel();
-    static DanceModel getInstance()
-    {
+
+    static DanceModel getInstance() {
         return DancingModel;
     }
-    private int CurrentScreen;
-    DanceModel(){
-        CurrentScreen =0;
 
+    private Uri video1uri;
+    private Uri video2uri;
+    private Uri localuri;
+    private int select;
+    private int CurrentScreen;
+
+    DanceModel() {
+        CurrentScreen = 0;
+        video1uri = null;
+        video2uri = null;
+        localuri = null;
+        select = 1;
+    }
+
+    public void setServerUri(Uri u) {
+        if (select == 0) {
+            video1uri = u;
+        } else {
+            video2uri = u;
+        }
+        select = (select + 1) % 2;
+    }
+
+    public void setClientUri(Uri u) {
+        video2uri = u;
+    }
+
+    public Uri getUri(int videoindex) {
+        switch (videoindex) {
+            case 1:
+                return video1uri;
+            case 2:
+                return video2uri;
+
+        }
+        return null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

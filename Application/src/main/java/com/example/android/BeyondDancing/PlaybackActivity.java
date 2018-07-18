@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.MediaController;
 
@@ -83,8 +84,13 @@ public class PlaybackActivity extends Activity implements Observer {
         ;
         String videotwo = "android.resource://" + getPackageName() + "/" + R.raw.test2;
         ;
-        Uri video1uri = Uri.parse(videoone);
-        Uri video2uri = Uri.parse(videotwo);
+        Uri video1uri = DModel.getUri(1);//Uri.parse(videoone);
+        Uri video2uri =  DModel.getUri(2);//Uri.parse(videotwo);
+        if(video2uri ==null){
+            Toast.makeText(this, "need one or more video, pls record", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent( this,CameraActivity.class);
+            startActivity(intent);
+        }
         video1.setVideoURI(video1uri);
         video2.setVideoURI(video2uri);
         //video1.setMediaController(vidcrlone);

@@ -41,6 +41,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -756,6 +757,7 @@ public class Camera2VideoFragment extends Fragment
                     Toast.LENGTH_SHORT).show();
             Log.d(TAG, "Video saved: " + mNextVideoAbsolutePath);
         }
+        DModel.setClientUri(Uri.parse(mNextVideoAbsolutePath));
         UploadAsyncTask u = new UploadAsyncTask(mNextVideoAbsolutePath, mPath);
         u.execute();
         mNextVideoAbsolutePath = null;
