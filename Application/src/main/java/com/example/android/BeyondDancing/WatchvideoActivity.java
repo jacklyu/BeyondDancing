@@ -38,13 +38,13 @@ public class WatchvideoActivity extends Activity implements Observer {
         videoFragment = new VideobarFragment();
         videocrl = new MediaController(this);
 
-        video.setMediaController(videocrl);
-        videocrl.setAnchorView(video);
-        video.requestFocus();
 
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragmentvideo,videoFragment ).commit();
-
+        video.setMediaController(videocrl);
+        videocrl.setAnchorView(video);
+        video.requestFocus();
+        video.start();
         DModel.addObserver(this);
 
 

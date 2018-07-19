@@ -19,18 +19,32 @@ public class DanceModel extends Observable {
 
     private Uri video1uri;
     private Uri video2uri;
-    private Uri localuri;
+    private Uri clienturi;
+    private Uri serveruri;
     private int select;
     private int CurrentScreen;
     private boolean issignedin;
+
     DanceModel() {
         CurrentScreen = 0;
         video1uri = null;
         video2uri = null;
-        localuri = null;
+        clienturi = null;
+        serveruri =null;
         select = 0;
         issignedin =false;
 
+    }
+    public int numbvideo(){
+        int num =0;
+        if(video1uri != null){
+            num = num +1;
+
+        }
+        if(video2uri != null){
+            num = num +1;
+        }
+        return num;
     }
     public void signin(){
         issignedin =true;
@@ -44,13 +58,24 @@ public class DanceModel extends Observable {
     public boolean signedin(){
         return issignedin;
     }
-    public void setServerUri(Uri u) {
-        if (select == 0) {
-            video1uri = u;
-        } else {
-            video2uri = u;
+    public void setServerUri(Uri u){
+        serveruri = u;
+    }
+    public void addUri(int type) {
+        if (type == 0) {
+            if (select == 0) {
+                video1uri = serveruri;
+            } else {
+                video2uri = serveruri;
+            }
+            select = (select + 1) % 2;
+        } else if (type == 1) {
+            if (select == 0) {
+                video1uri = clienturi;
+            } else {
+                video2uri = serveruri;
+            }
         }
-        select = (select + 1) % 2;
     }
 
     public void setClientUri(Uri u) {
@@ -77,9 +102,20 @@ public class DanceModel extends Observable {
     public void resetUri(){
         video1uri = null;
         video2uri = null;
-        localuri = null;
+        clienturi = null;
+        serveruri = null;
         select = 0;
     }
+    public void clearUri(){
+        switch (select) {
+            case  0:
+                video1uri =null;
+             case 1:
+                video2uri =null;
+
+        }
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
