@@ -40,8 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.android.BeyondDancing.PlaybackActivity"
-            android:screenOrientation="sensorPortrait"></activity>
+        <activity android:name="com.example.android.BeyondDancing.PlaybackActivity"></activity>
         <activity android:name=".CameraActivity"></activity>
         <activity android:name=".WatchvideoActivity"
             android:screenOrientation="sensorPortrait"></activity>
