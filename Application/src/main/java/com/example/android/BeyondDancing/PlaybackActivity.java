@@ -41,7 +41,18 @@ public class PlaybackActivity extends Activity implements Observer {
         // Get Model instance
         DModel = DanceModel.getInstance();
 
-
+        Uri video1uri = DModel.getUri(1);//Uri.parse(videoone);
+        Uri video2uri =  DModel.getUri(2);//Uri.parse(videotwo);
+        if(DModel.signedin()) {
+            if (video1uri == null || video2uri == null) {
+                Toast.makeText(this, "need one or more video, pls record", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, CameraActivity.class);
+                startActivity(intent);
+            }
+        } else {
+            String videoone = "android.resource://" + getPackageName() + "/" + R.raw.test2;
+            video1uri = Uri.parse(videoone);
+        }
 
     //set view info
         restartbutton = findViewById(R.id.button2);
@@ -85,13 +96,7 @@ public class PlaybackActivity extends Activity implements Observer {
         ;
         String videotwo = "android.resource://" + getPackageName() + "/" + R.raw.test2;
         ;
-        Uri video1uri = DModel.getUri(1);//Uri.parse(videoone);
-        Uri video2uri =  DModel.getUri(2);//Uri.parse(videotwo);
-        if(video1uri ==null ||video2uri ==null ){
-            Toast.makeText(this, "need one or more video, pls record", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent( this,CameraActivity.class);
-            startActivity(intent);
-        }
+
         video1.setVideoURI(video1uri);
         video2.setVideoURI(video2uri);
         //video1.setMediaController(vidcrlone);

@@ -99,6 +99,9 @@ public class DanceModel extends Observable {
             return false;
         }
     }
+    public Uri getServerUri(){
+        return serveruri;
+    }
     public void resetUri(){
         video1uri = null;
         video2uri = null;

@@ -60,6 +60,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -133,7 +134,7 @@ public class Camera2VideoFragment extends Fragment
      */
     private Button mButtonVideo;
 
-
+    private ImageButton home;
 
     /*/
 
@@ -325,6 +326,8 @@ public class Camera2VideoFragment extends Fragment
         mButtonVideo = (Button) view.findViewById(R.id.video);
         mButtonVideo.setOnClickListener(this);
         playbackbutton =(Button) view.findViewById(R.id.playback);
+        home =  (ImageButton) view.findViewById(R.id.gohome);
+
         playbackbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -332,7 +335,7 @@ public class Camera2VideoFragment extends Fragment
                 startActivity(intent);
             }
         });
-        view.findViewById(R.id.info).setOnClickListener(this);
+        view.findViewById(R.id.gohome).setOnClickListener(this);
     }
 
     @Override
@@ -364,15 +367,27 @@ public class Camera2VideoFragment extends Fragment
                 }
                 break;
             }
-            case R.id.info: {
+            case R.id.gohome: {
+                DModel.resetUri();
+                home.setImageResource(R.drawable.home2);
+
+
+                Intent intent2 = new Intent(view.getContext(), MainActivity.class);
+                startActivity(intent2);
+                /*
                 Activity activity = getActivity();
                 if (null != activity) {
+
                     new AlertDialog.Builder(activity)
                             .setMessage(R.string.intro_message)
                             .setPositiveButton(android.R.string.ok, null)
                             .show();
+
+
                 }
+                */
                 break;
+
             }
         }
     }

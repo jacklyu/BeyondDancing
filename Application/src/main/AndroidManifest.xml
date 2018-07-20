@@ -47,6 +47,8 @@
             android:screenOrientation="sensorPortrait"></activity>
         <activity android:name=".LoginActivity"
             android:screenOrientation="sensorPortrait"></activity>
+        <activity android:name=".fullvideoActivity"
+            android:screenOrientation="sensorLandscape"></activity>
     </application>
 
 </manifest>

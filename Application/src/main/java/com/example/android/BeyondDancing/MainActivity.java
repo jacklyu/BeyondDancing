@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.loopj.android.http.AsyncHttpClient;
@@ -66,8 +67,15 @@ public class MainActivity extends AppCompatActivity implements Observer{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
-                startActivity(intent);
+                if(DModel.signedin() && DModel.numbvideo() >0) {
+                    Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
+                    startActivity(intent);
+                } else if(DModel.signedin()) {
+
+                    Toast.makeText(getApplication(), "need one or more video, pls record", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplication(), "pls sign in", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

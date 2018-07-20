@@ -17,10 +17,19 @@ public class VideobarFragment extends Fragment implements View.OnClickListener,O
     ImageButton dance;
     ImageButton interst;
     ImageButton reject;
+    ImageButton fullvideo;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DModel = DanceModel.getInstance();
         View v = inflater.inflate(R.layout.videobar, container, false);
+        fullvideo = (ImageButton) v.findViewById(R.id.fullscreen);
+        fullvideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent( v.getContext(),fullvideoActivity.class);
+                startActivity(intent);
+            }
+        });
         dance = (ImageButton) v.findViewById(R.id.danceit);
         dance.setOnClickListener(new View.OnClickListener() {
             @Override
