@@ -913,6 +913,7 @@ public class Camera2VideoFragment extends Fragment
         }
 
     }
+    /*
     public int uploadFile(final String selectedFilePath) {
 
         int serverResponseCode = 0;
@@ -1003,5 +1004,6 @@ public class Camera2VideoFragment extends Fragment
         }
         return serverResponseCode;
     }
+    */
 
 }

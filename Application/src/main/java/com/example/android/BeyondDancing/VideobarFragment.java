@@ -44,7 +44,6 @@ public class VideobarFragment extends Fragment implements View.OnClickListener,O
         reject.setOnClickListener(new View.OnClickListener() {
                                        @Override
                                        public void onClick(View v) {
-
                                            DModel.resetUri();
                                            reject.setImageResource(R.drawable.downvote);
                                            Intent intent2 = new Intent(v.getContext(), MainActivity.class);
